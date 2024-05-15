@@ -91,6 +91,8 @@ int main(int argc, char* argv[]) {
 
     for(int i = 0;i<ans.size();i++){
         outputFile<<ans[i]<<" ";
+        if(i==ans.size()-1)
+        outputFile<<ans[i];
     }
 
     return 0;
