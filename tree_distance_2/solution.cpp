@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>  // Include <string> header for string manipulation
-#include <sstream> // Include <sstream> header for stringstream
+#include <sstream> 
+#include <vector>
 
 using namespace std;
 
