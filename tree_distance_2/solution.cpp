@@ -7,8 +7,28 @@
 using namespace std;
 
 vector<vector<int> > adj;
+vector<int> sum;
+vector<int> cnt;
+
+void dfs(int root,int parent){
+    for(int child : adj[root]){
+        if(child==parent) continue;
+        dfs(child,root);
+        cnt[root] += cnt[child];
+        sum[root] += sum[child]+cnt[child];
+    }
+}
+
+void reroot(int root,int parent,int n){
+    for(int child:adj[root]){
+        if(child==parent) continue;
+        sum[child] = sum[root] + n - 2*cnt[child];
+        reroot(child,root,n);
+    }
+}
+
 vector<int> findDistance(vector<vector<int> >& edges,int n){
-    vector<int> ans;
+    adj.resize(n);
     for(int i = 0;i<edges.size();i++){
         int u = edges[i][0];
         int v = edges[i][1];
@@ -16,7 +36,12 @@ vector<int> findDistance(vector<vector<int> >& edges,int n){
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
-    return ans;
+    cnt.assign(n,1);
+    sum.assign(n,0);
+    dfs(0,-1);
+    reroot(0,-1,n);
+
+    return sum;
 }
 
 int main(int argc, char* argv[]) {
@@ -48,8 +73,8 @@ int main(int argc, char* argv[]) {
 
     while(inputFile>>u>>v){
         vector<int> aux;
-        aux.push_back(u);
-        aux.push_back(v);
+        aux.push_back(u-1);
+        aux.push_back(v-1);
         edges.push_back(aux);
     }
 
